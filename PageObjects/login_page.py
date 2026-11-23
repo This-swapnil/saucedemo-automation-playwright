@@ -6,7 +6,7 @@ from PageObjects.base_page import BasePage
 class LoginPage(BasePage):
     def __init__(self, page: Page) -> None:
         super().__init__(page)
-        # self.navigate()
+        self.navigate()
 
         # Locators
         self.username = page.locator("#user-name")
