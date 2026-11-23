@@ -19,7 +19,7 @@ class TestLoginPage(BaseClass):
         return request.param
 
     @pytest.mark.skip
-    def test_login(self, get_logger, setup_page, get_user_credentials):
+    def test_login(self, get_logger, get_user_credentials):
         log = get_logger
         log.info(
             "Test Case Summary: Verify user is able to login to saucedemo website using valid credentials "
@@ -31,7 +31,7 @@ class TestLoginPage(BaseClass):
         log.info("Step 1: Launch the website https://www.saucedemo.com")
         log.info("Launching the browser and navigated to https://www.saucedemo.com")
         log.info("Step2: Perform login")
-        login_page = LoginPage(setup_page)
+        login_page = LoginPage(self.page)
         login_page.login(
             username=get_user_credentials["username"],
             password=get_user_credentials["password"],
@@ -48,7 +48,7 @@ class TestLoginPage(BaseClass):
                 "User is unable to login error displayed as: " + login_page.error_msg()
             )
             allure.attach(
-                setup_page.screenshot(),
+                self.page.screenshot(),
                 "evidence",
                 attachment_type=AttachmentType.PNG,
             )
@@ -58,7 +58,7 @@ class TestLoginPage(BaseClass):
             except:
                 log.error("Error message not displayed for invalid credentials")
                 allure.attach(
-                    setup_page.screenshot(),
+                    self.page.screenshot(),
                     "evidence",
                     attachment_type=AttachmentType.PNG,
                 )
@@ -68,7 +68,7 @@ class TestLoginPage(BaseClass):
 
     @pytest.mark.negative
     @pytest.mark.skip
-    def test_login_invlaid_creds(self, get_logger, setup_page, get_invalid_credentials):
+    def test_login_invlaid_creds(self, get_logger, get_invalid_credentials):
         log = get_logger
         log.info(
             "Test Case Summary: Verify user is able to login to saucedemo website using valid credentials "
@@ -80,7 +80,7 @@ class TestLoginPage(BaseClass):
         log.info("Step 1: Launch the website https://www.saucedemo.com")
         log.info("Launching the browser and navigated to https://www.saucedemo.com")
         log.info("Step2: Perform login")
-        login_page = LoginPage(setup_page)
+        login_page = LoginPage(self.page)
         login_page.login(
             username=get_invalid_credentials["username"],
             password=get_invalid_credentials["password"],
@@ -97,7 +97,7 @@ class TestLoginPage(BaseClass):
                 "User is unable to login error displayed as: " + login_page.error_msg()
             )
             allure.attach(
-                setup_page.screenshot(),
+                self.page.screenshot(),
                 "evidence",
                 attachment_type=AttachmentType.PNG,
             )
@@ -107,7 +107,7 @@ class TestLoginPage(BaseClass):
             except:
                 log.error("Error message not displayed for invalid credentials")
                 allure.attach(
-                    setup_page.screenshot(),
+                    self.page.screenshot(),
                     "evidence",
                     attachment_type=AttachmentType.PNG,
                 )
@@ -116,7 +116,7 @@ class TestLoginPage(BaseClass):
         log.info("Closing the browser")
 
     @pytest.mark.positive
-    def test_login_standard_user(self, get_logger, setup_page):
+    def test_login_standard_user(self, get_logger):
         log = get_logger
         log.info(
             "Test Case Summary: Verify user is able to login to saucedemo website using valid credentials "
@@ -128,7 +128,7 @@ class TestLoginPage(BaseClass):
         log.info("Step 1: Launch the website https://www.saucedemo.com")
         log.info("Launching the browser and navigated to https://www.saucedemo.com")
         log.info("Step2: Perform login")
-        login_page = LoginPage(setup_page)
+        login_page = LoginPage(self.page)
         login_page.login(
             username=Config.STANDARD_USER,
             password=Config.PASSWORD,
@@ -137,7 +137,7 @@ class TestLoginPage(BaseClass):
             "Step 3: Verify user navigated to home page of Products and 'Products' title is displayed"
         )
         login_page.assert_url_contains(substring="inventory.html")
-        log.info(f"Current Page URL: {setup_page.url} or {login_page.get_url()}")
+        log.info(f"Current Page URL: {self.page.url} or {login_page.get_url()}")
         try:
             assert login_page.title_exists()
             log.info(f"Login Successful for ====> {Config.STANDARD_USER}!!")
@@ -146,7 +146,7 @@ class TestLoginPage(BaseClass):
                 "User is unable to login error displayed as: " + login_page.error_msg()
             )
             allure.attach(
-                setup_page.screenshot(),
+                self.page.screenshot(),
                 "evidence",
                 attachment_type=AttachmentType.PNG,
             )
@@ -154,7 +154,7 @@ class TestLoginPage(BaseClass):
         log.info("Closing the browser")
 
     @pytest.mark.positive
-    def test_login_problem_user(self, get_logger, setup_page):
+    def test_login_problem_user(self, get_logger):
         log = get_logger
         log.info(
             "Test Case Summary: Verify user is able to login to saucedemo website using valid credentials "
@@ -166,7 +166,7 @@ class TestLoginPage(BaseClass):
         log.info("Step 1: Launch the website https://www.saucedemo.com")
         log.info("Launching the browser and navigated to https://www.saucedemo.com")
         log.info("Step2: Perform login")
-        login_page = LoginPage(setup_page)
+        login_page = LoginPage(self.page)
         login_page.login(
             username=Config.PROBLEM_USER,
             password=Config.PASSWORD,
@@ -174,7 +174,7 @@ class TestLoginPage(BaseClass):
         log.info(
             "Step 3: Verify user navigated to home page of Products and 'Products' title is displayed"
         )
-        log.info(f"Current Page URL: {setup_page.url} or {login_page.get_url()}")
+        log.info(f"Current Page URL: {self.page.url} or {login_page.get_url()}")
         try:
             assert login_page.title_exists()
             log.info(f"Login Successful for ====> {Config.PROBLEM_USER} !!")
@@ -183,7 +183,7 @@ class TestLoginPage(BaseClass):
                 "User is unable to login error displayed as: " + login_page.error_msg()
             )
             allure.attach(
-                setup_page.screenshot(),
+                self.page.screenshot(),
                 "evidence",
                 attachment_type=AttachmentType.PNG,
             )
@@ -191,7 +191,7 @@ class TestLoginPage(BaseClass):
         log.info("Closing the browser")
 
     @pytest.mark.negative
-    def test_login_locked_user(self, get_logger, setup_page):
+    def test_login_locked_user(self, get_logger):
         log = get_logger
         log.info(
             "Test Case Summary: Verify user is able to login to saucedemo website using valid credentials "
@@ -203,7 +203,7 @@ class TestLoginPage(BaseClass):
         log.info("Step 1: Launch the website https://www.saucedemo.com")
         log.info("Launching the browser and navigated to https://www.saucedemo.com")
         log.info("Step2: Perform login")
-        login_page = LoginPage(setup_page)
+        login_page = LoginPage(self.page)
         login_page.login(
             username=Config.LOCKED_OUT_USER,
             password=Config.PASSWORD,
@@ -219,7 +219,7 @@ class TestLoginPage(BaseClass):
                 "User is unable to login error displayed as: " + login_page.error_msg()
             )
             allure.attach(
-                setup_page.screenshot(),
+                self.page.screenshot(),
                 "evidence",
                 attachment_type=AttachmentType.PNG,
             )
