@@ -1,12 +1,20 @@
+import allure
 import pytest
-from playwright.sync_api import Page
+from playwright.sync_api import Browser, Page
+from allure_commons.types import AttachmentType
+
+
 from config.config import Config
 
 
-@pytest.fixture(scope="function")
-def setup_page(page: Page):
-    page.goto(Config.BASE_URL)
+@pytest.fixture(scope="class")
+def setup(request, browser: Browser, browser_context_args: dict):
+    context = browser.new_context(**browser_context_args)
+    page = context.new_page()
+    request.cls.page = page
+    # page.goto(Config.BASE_URL)
     yield page
+    context.close()
 
 
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
