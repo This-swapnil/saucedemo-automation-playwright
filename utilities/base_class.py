@@ -2,12 +2,16 @@ import inspect
 import logging
 
 import pytest
+from playwright.sync_api import Page
 
 from PageObjects.login_page import LoginPage
 
 
+@pytest.mark.usefixtures("setup")
 class BaseClass:
-    @pytest.fixture(scope="module")
+    page: Page
+
+    @pytest.fixture(scope="module", autouse=True)
     def get_logger(self):
         logger_name = inspect.stack()[1][3]
         logger = logging.getLogger(logger_name)
@@ -24,6 +28,6 @@ class BaseClass:
         logger.addHandler(fh)
         return logger
 
-    def perform_complete_login(self, page):
-        login_page = LoginPage(page)
+    def perform_complete_login(self):
+        login_page = LoginPage(self.page)
         login_page.login(username="standard_user", password="secret_sauce")
