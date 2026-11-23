@@ -5,12 +5,13 @@ from config.config import Config
 
 
 class BasePage:
-    def __init__(self, page: Page) -> None:
+    def __init__(self, page) -> None:
         self.page = page
+        self.url = Config.BASE_URL
         self.page.set_default_timeout(Config.DEFAULT_TIMEOUT)
 
-    def navigate(self, url: str = Config.BASE_URL) -> None:
-        self.page.goto(url=url)
+    def navigate(self) -> None:
+        self.page.goto(self.url)
 
     # def get_locator(self, selector: str) -> Locator:
     #     return self.page.locator(selector)
