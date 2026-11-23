@@ -23,7 +23,7 @@ class ProductListPage(BasePage):
 
         self.hamburger_menu = page.locator("#react-burger-menu-btn")
         self.page_heading = page.locator(".title")
-        self.filter_dropdown = page.locator("select[aria-label='Sort products']")
+        self.filter_dropdown = page.locator(".product_sort_container")
 
     # Get Methods
     def get_all_products(self) -> Locator:
