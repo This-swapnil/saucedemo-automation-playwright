@@ -8,24 +8,24 @@ class LoginPage(BasePage):
         super().__init__(page)
         # self.navigate()
 
-    # Locators
-    USERNAME_INPUT = "#user-name"
-    PASSWORD_INPUT = "#password"
-    LOGIN_BUTTON = "#login-button"
-    ERROR_MSG = ".error-message-container"
-    TITLE = ".title"
+        # Locators
+        self.username = page.locator("#user-name")
+        self.password = page.locator("#password")
+        self.login_button = page.locator("#login-button")
+        self.error = page.locator(".error-message-container")
+        self.title = page.locator(".title")
 
     def login(self, username: str, password: str) -> None:
-        self.fill(selector=self.USERNAME_INPUT, text=username)
-        self.fill(selector=self.PASSWORD_INPUT, text=password)
-        self.click(self.LOGIN_BUTTON)
+        self.fill(self.username, text=username)
+        self.fill(self.password, text=password)
+        self.login_button.click()
 
     def error_msg(self) -> str:
-        error_msg = self.get_text(selector=self.ERROR_MSG).split(":")[1]
+        error_msg = self.get_text(locator=self.error).split(":")[1]
         return error_msg
 
     def error_message_exists(self):
-        return True if self.is_visible(selector=self.ERROR_MSG) else False
+        return True if self.is_visible(locator=self.error) else False
 
     def title_exists(self):
-        return True if "Products" in self.get_text(selector=self.TITLE) else False
+        return True if "Products" in self.get_text(locator=self.title) else False
