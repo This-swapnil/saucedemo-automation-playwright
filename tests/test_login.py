@@ -1,9 +1,9 @@
 from allure_commons.types import AttachmentType
 import pytest
 import allure
-from utilities.BaseClass import BaseClass
-from PageObjects.LoginPage import LoginPage
-from testData.UserCredentials import UserCreds
+from utilities.base_class import BaseClass
+from PageObjects.login_page import LoginPage
+from testData.user_credentials import UserCreds
 from config.config import Config
 
 

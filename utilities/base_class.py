@@ -3,6 +3,8 @@ import logging
 
 import pytest
 
+from PageObjects.login_page import LoginPage
+
 
 class BaseClass:
     @pytest.fixture(scope="module")
@@ -21,3 +23,7 @@ class BaseClass:
         )
         logger.addHandler(fh)
         return logger
+
+    def perform_complete_login(self, page):
+        login_page = LoginPage(page)
+        login_page.login(username="standard_user", password="secret_sauce")
