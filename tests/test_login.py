@@ -153,6 +153,7 @@ class TestLoginPage(BaseClass):
             pytest.fail("User is unable to login error message displayed successfully")
         log.info("Closing the browser")
 
+    @pytest.mark.positive
     def test_login_problem_user(self, get_logger, setup_page):
         log = get_logger
         log.info(
