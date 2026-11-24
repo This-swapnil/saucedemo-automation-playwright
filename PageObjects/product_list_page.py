@@ -15,7 +15,7 @@ class ProductListPage(BasePage):
         self.cart_badge = page.locator(".shopping_cart_badge")  # cart item total count
         self.cart_icon_button = page.locator(".shopping_cart_link")  # cart icon
 
-        self.products = page.locator(".inventory_item")  # $29.99
+        self.products = page.locator(".inventory_item")
         self.product_names = page.locator(
             ".inventory_item_name"  # Sauce Labs Backpack, Sauce Labs Bike Light
         )
@@ -46,7 +46,7 @@ class ProductListPage(BasePage):
         )
 
     def get_list_of_products_by_price(self, price: str) -> Locator:
-        price = price.replace("$", "")
+        # price = price.replace("$", "")
         return self.products.filter(has=self.page.get_by_text(price, exact=True))
 
     def get_list_of_products_by_title(self, title: str) -> Locator:
