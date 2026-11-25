@@ -110,9 +110,7 @@ class TestProductDetailPage(BaseClass):
         log.info(
             "Step2: Select a random product and navidate to its PDP and click on add to cart"
         )
-        if (
-            pdp.back_to_plp_btn.is_visible()
-        ):  # ++++++++++++++++++++++++++++++++++++++++++++
+        if pdp.back_to_plp_btn.is_visible():
             log.info("Navigate back to PLP")
             pdp.click_back_to_products()
         first_product_name, _, _ = pdp.select_random_product()
