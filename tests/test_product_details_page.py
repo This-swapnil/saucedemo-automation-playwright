@@ -65,12 +65,15 @@ class TestProductDetailPage(BaseClass):
         log.info(
             "==== Verify the names and prices of the products are in sync on PLP and PDP ===="
         )
-        log.info("Step 1: Perform complete login")
-        self.perform_complete_login()
-        log.info("Login Successful")
+        # log.info("Step 1: Perform complete login")
+        # self.perform_complete_login()
+        # log.info("Login Successful")
         pdp = ProductDetailsPage(self.page)
         log.info("Step2: Select a random product on PDP")
-        pdp.select_random_product()
+        if pdp.back_to_plp_btn.is_visible():
+            log.info("Navigate back to PLP")
+            pdp.click_back_to_products()
+        pdp.select_random_product()  # ===============================
         log.info("Verify product is selected and redirected to PDP")
         log.info("Step3: Click back to products button")
         pdp.click_back_to_products()
@@ -95,9 +98,9 @@ class TestProductDetailPage(BaseClass):
         log.info(
             "==== Verify add to cart functionality is working as expected from PDP ===="
         )
-        log.info("Step 1: Perform complete login")
-        self.perform_complete_login()
-        log.info("Login Successful")
+        # log.info("Step 1: Perform complete login")
+        # self.perform_complete_login()
+        # log.info("Login Successful")
         cart_items = 0
         pdp = ProductDetailsPage(self.page)
         plp = ProductListPage(self.page)
@@ -107,6 +110,11 @@ class TestProductDetailPage(BaseClass):
         log.info(
             "Step2: Select a random product and navidate to its PDP and click on add to cart"
         )
+        if (
+            pdp.back_to_plp_btn.is_visible()
+        ):  # ++++++++++++++++++++++++++++++++++++++++++++
+            log.info("Navigate back to PLP")
+            pdp.click_back_to_products()
         first_product_name, _, _ = pdp.select_random_product()
         pdp.click_add_to_cart()
         self.page.wait_for_timeout(10000)
@@ -160,11 +168,16 @@ class TestProductDetailPage(BaseClass):
 
         log.info(f"URL before empty_cart: {self.page.url}")
 
-        plp.empty_cart()
-
         if pdp.back_to_plp_btn.is_visible():
             log.info("Navigate back to PLP")
             pdp.click_back_to_products()
+
+        plp.empty_cart()
+
+        actual_cart_items = plp.get_number_of_cart_item()
+        log.info(f"Cart items after empty_cart: {actual_cart_items}")
+
+        assert plp.get_number_of_cart_item() == 0, "Cart is not empty"
 
         log.info(f"URL after empty_cart: {self.page.url}")
 
@@ -178,7 +191,7 @@ class TestProductDetailPage(BaseClass):
         try:
             assert actual_cart_items == cart_items
             log.info("Remove button is working as expected")
-            log.info("**** Test Remove Button Successful")
+            log.info("**** Test Remove Button Successful ****")
         except AssertionError as e:
             log.error(f"Remove button is not working as expected: {e}")
             allure.attach(
