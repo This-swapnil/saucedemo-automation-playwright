@@ -226,3 +226,4 @@ Allure-results/
 logs/
 reports/
 try.py
+.idea/
