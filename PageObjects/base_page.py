@@ -20,6 +20,7 @@ class BasePage:
         locator.click()
 
     def fill(self, locator: Locator, text: str) -> None:
+        locator.clear()
         locator.fill(text)
 
     def get_text(self, locator: Locator) -> str:
